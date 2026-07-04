@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
+/* Tailwind v4 defaults to the `prefers-color-scheme` media strategy for
+   `dark:` utilities. We toggle a `.dark` class via next-themes instead,
+   so redefine the variant to key off that class. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f4f8;
+  --foreground: #16161f;
+  --surface: 255 255 255;
+  --surface-alpha: 0.65;
+  --surface-border: 0 0 0;
+  --surface-border-alpha: 0.08;
+  --accent: 139 92 246;
+  --user-color: #8b5cf6;
+}
+
+.dark {
+  --background: #0b0b12;
+  --foreground: #f2f2f7;
+  --surface: 255 255 255;
+  --surface-alpha: 0.06;
+  --surface-border: 255 255 255;
+  --surface-border-alpha: 0.12;
+  --accent: 168 130 255;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: rgb(var(--accent));
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+.glass-card {
+  border-radius: 1rem;
+  border-width: 1px;
+  backdrop-filter: blur(16px);
+  background: rgb(var(--surface) / var(--surface-alpha));
+  border-color: rgb(var(--surface-border) / var(--surface-border-alpha));
+}
+
+.header-gradient {
+  background: linear-gradient(135deg, var(--user-color), #8b5cf6);
 }
