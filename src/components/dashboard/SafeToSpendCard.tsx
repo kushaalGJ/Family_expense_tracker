@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { formatINR } from "@/lib/utils/currency";
 
 export function SafeToSpendCard({
@@ -25,6 +26,12 @@ export function SafeToSpendCard({
         <span>Spent: {formatINR(totalSpent)}</span>
         <span>Income: {formatINR(totalIncome)}</span>
       </div>
+      <Link
+        href="/budgets"
+        className="mt-3 inline-block text-xs text-[rgb(var(--accent))] hover:underline"
+      >
+        Edit budget limits to change this →
+      </Link>
     </div>
   );
 }
