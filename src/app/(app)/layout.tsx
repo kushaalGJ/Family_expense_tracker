@@ -2,9 +2,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { resolveModeContext } from "@/lib/mode";
 import { ModeProvider } from "@/lib/context/ModeContext";
-import { GradientHeader } from "@/components/layout/GradientHeader";
-import { BottomTabBar } from "@/components/layout/BottomTabBar";
-import { AddFab } from "@/components/layout/AddFab";
+import { AppHeader } from "@/components/layout/AppHeader";
+import { BottomNav } from "@/components/layout/BottomNav";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -19,10 +18,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <ModeProvider value={modeValue}>
       <div className="flex min-h-screen flex-col">
-        <GradientHeader />
-        <main className="mx-auto -mt-4 w-full max-w-2xl flex-1 px-4 pb-6">{children}</main>
-        <AddFab />
-        <BottomTabBar />
+        <AppHeader />
+        <main className="mx-auto w-full max-w-2xl flex-1 px-5 pb-32 pt-1">{children}</main>
+        <BottomNav />
       </div>
     </ModeProvider>
   );

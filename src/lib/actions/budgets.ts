@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getFamilyId } from "@/lib/mode";
-import type { Category } from "@/lib/types/database.types";
 
 export async function listBudgets() {
   const supabase = await createClient();
@@ -17,7 +16,7 @@ export async function listBudgets() {
   return data ?? [];
 }
 
-export async function upsertBudget(category: Category, monthlyLimit: number) {
+export async function upsertBudget(category: string, monthlyLimit: number) {
   const supabase = await createClient();
   const {
     data: { user },

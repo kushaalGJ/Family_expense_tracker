@@ -1,22 +1,25 @@
-import { CATEGORY_META } from "@/lib/constants/categories";
-import { CATEGORY_ICON } from "@/lib/constants/categoryIcons";
-import type { Category } from "@/lib/types/database.types";
+import { categoryColor } from "@/lib/constants/categories";
+import { categoryIconFor } from "@/lib/constants/categoryIcons";
 
 export function CategoryIcon({
   category,
+  color,
+  icon,
   size = 44,
 }: {
-  category: Category;
+  category: string;
+  color?: string;
+  icon?: string | null;
   size?: number;
 }) {
-  const color = CATEGORY_META[category].color;
-  const Icon = CATEGORY_ICON[category];
+  const resolvedColor = color ?? categoryColor(category);
+  const Icon = categoryIconFor(category, icon);
   return (
     <span
       className="chip flex shrink-0 items-center justify-center rounded-2xl"
-      style={{ ["--chip" as string]: color, width: size, height: size }}
+      style={{ ["--chip" as string]: resolvedColor, width: size, height: size }}
     >
-      <Icon size={size * 0.5} strokeWidth={2} />
+      <Icon size={size * 0.46} strokeWidth={2} />
     </span>
   );
 }

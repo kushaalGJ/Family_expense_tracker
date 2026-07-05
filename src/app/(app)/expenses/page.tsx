@@ -1,11 +1,9 @@
-import Link from "next/link";
-import { Plus } from "lucide-react";
 import { listExpenses } from "@/lib/actions/expenses";
+import { listCategories } from "@/lib/actions/categories";
 import { ExpenseFilters } from "@/components/expenses/ExpenseFilters";
 import { ExpenseList } from "@/components/expenses/ExpenseList";
 import { ExportCsvButton } from "@/components/expenses/ExportCsvButton";
-import { Button } from "@/components/ui/Button";
-import type { Category } from "@/lib/types/database.types";
+import { formatINR } from "@/lib/utils/currency";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -20,25 +18,39 @@ export default async function ExpensesPage({
 }) {
   const params = await searchParams;
 
-  const expenses = await listExpenses({
-    category: asString(params.category) as Category | undefined,
-    search: asString(params.search),
-    dateFrom: asString(params.dateFrom),
-    dateTo: asString(params.dateTo),
-  });
+  const [expenses, customCategories] = await Promise.all([
+    listExpenses({
+      category: asString(params.category),
+      search: asString(params.search),
+      dateFrom: asString(params.dateFrom),
+      dateTo: asString(params.dateTo),
+    }),
+    listCategories(),
+  ]);
+
+  const total = expenses.reduce((s, e) => s + e.amount, 0);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 pt-1">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Expenses</h1>
-        <Link href="/expenses/new">
-          <Button><Plus size={16} /> Add</Button>
-        </Link>
-      </div>
-      <ExpenseFilters />
-      <div className="flex justify-end">
+        <h1 className="text-2xl font-bold">Expenses</h1>
         <ExportCsvButton />
       </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div className="card !rounded-2xl p-4">
+          <div className="text-xs font-medium text-muted">Total</div>
+          <div className="mt-0.5 text-xl font-extrabold text-[rgb(var(--expense))]">
+            {formatINR(total)}
+          </div>
+        </div>
+        <div className="card !rounded-2xl p-4">
+          <div className="text-xs font-medium text-muted">Transactions</div>
+          <div className="mt-0.5 text-xl font-extrabold">{expenses.length}</div>
+        </div>
+      </div>
+
+      <ExpenseFilters customCategories={customCategories} />
       <ExpenseList expenses={expenses} />
     </div>
   );

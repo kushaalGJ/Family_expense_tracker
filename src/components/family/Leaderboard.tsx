@@ -1,4 +1,4 @@
-import { CATEGORY_META } from "@/lib/constants/categories";
+import { categoryEmoji } from "@/lib/constants/categories";
 import { formatINR } from "@/lib/utils/currency";
 import type { LeaderboardMember } from "@/lib/actions/family";
 
@@ -38,7 +38,7 @@ export function Leaderboard({
                 <div className="mt-0.5 flex gap-2 text-xs text-muted">
                   {member.topCategories.map((c) => (
                     <span key={c.category}>
-                      {CATEGORY_META[c.category].emoji} {formatINR(c.amount)}
+                      {categoryEmoji(c.category)} {formatINR(c.amount)}
                     </span>
                   ))}
                 </div>

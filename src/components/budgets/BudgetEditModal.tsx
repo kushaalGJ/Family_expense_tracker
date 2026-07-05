@@ -6,7 +6,6 @@ import { upsertBudget } from "@/lib/actions/budgets";
 import { Modal } from "@/components/ui/Modal";
 import { FormField } from "@/components/ui/FormField";
 import { Button } from "@/components/ui/Button";
-import type { Category } from "@/lib/types/database.types";
 
 export function BudgetEditModal({
   open,
@@ -16,7 +15,7 @@ export function BudgetEditModal({
 }: {
   open: boolean;
   onClose: () => void;
-  category: Category;
+  category: string;
   currentLimit: number;
 }) {
   const [pending, setPending] = useState(false);

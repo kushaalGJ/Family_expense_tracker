@@ -1,43 +1,46 @@
 @import "tailwindcss";
 
-/* Tailwind v4 defaults to the `prefers-color-scheme` media strategy for
-   `dark:` utilities. We toggle a `.dark` class via next-themes instead,
-   so redefine the variant to key off that class. */
+/* next-themes toggles a `.dark` class; make Tailwind's dark: variant follow it. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #f3f2fb;
-  --foreground: #1b1830;
-  --muted: 107 104 128; /* secondary text */
+  --background: #f8fafc;
+  --foreground: #111827;
+  --muted: 107 114 128; /* #6B7280 secondary text */
 
   --card: 255 255 255;
-  --card-border: 17 12 46;
-  --card-border-alpha: 0.06;
-  --card-shadow: 0 6px 20px -8px rgba(43, 28, 92, 0.18);
+  --card-border: 229 231 235; /* #E5E7EB */
+  --card-shadow: 0 10px 30px -12px rgba(17, 24, 39, 0.12);
+  --card-shadow-lg: 0 24px 50px -18px rgba(17, 24, 39, 0.22);
 
-  --accent: 122 92 250; /* violet */
-  --accent-2: 109 78 240; /* deeper violet for gradients */
-  --user-color: #8b7cf6;
+  --accent: 29 185 84; /* #1DB954 emerald */
+  --accent-2: 22 163 74; /* deeper emerald for gradients */
+  --expense: 239 68 68; /* #EF4444 */
+  --income: 34 197 94; /* #22C55E */
+  --savings: 59 130 246; /* #3B82F6 */
 
-  --income: 22 163 74; /* green */
-  --expense: 225 45 62; /* red */
+  --user-color: #1db954;
+
+  --r-card: 24px;
+  --r-btn: 18px;
+  --r-input: 18px;
 }
 
 .dark {
-  --background: #0d0e14;
-  --foreground: #edecf5;
-  --muted: 154 164 178;
+  --background: #0b0f14;
+  --foreground: #f4f6fb;
+  --muted: 148 163 184;
 
-  --card: 25 27 35;
+  --card: 22 27 34;
   --card-border: 255 255 255;
-  --card-border-alpha: 0.08;
-  --card-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+  --card-shadow: 0 12px 32px -14px rgba(0, 0, 0, 0.6);
+  --card-shadow-lg: 0 28px 60px -20px rgba(0, 0, 0, 0.7);
 
-  --accent: 167 139 250;
-  --accent-2: 139 108 246;
-
-  --income: 52 211 153;
+  --accent: 45 212 130;
+  --accent-2: 29 185 84;
   --expense: 248 113 113;
+  --income: 74 222 128;
+  --savings: 96 165 250;
 }
 
 @theme inline {
@@ -47,34 +50,57 @@
   --color-muted: rgb(var(--muted));
   --color-income: rgb(var(--income));
   --color-expense: rgb(var(--expense));
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-savings: rgb(var(--savings));
+  --font-sans: var(--font-jakarta);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.011em;
 }
 
-/* Elevated white card — the primary surface. `.glass-card` kept as an alias
-   so existing markup restyles automatically. */
+/* Elevated white card — the primary surface. `.glass-card` kept as an alias. */
 .card,
 .glass-card {
-  border-radius: 1.25rem;
+  border-radius: var(--r-card);
   background: rgb(var(--card));
-  border: 1px solid rgb(var(--card-border) / var(--card-border-alpha));
+  border: 1px solid
+    rgb(var(--card-border) / var(--tw-border-a, 1));
   box-shadow: var(--card-shadow);
 }
+.dark .card,
+.dark .glass-card {
+  --tw-border-a: 0.08;
+}
 
-.gradient-header {
-  background:
-    linear-gradient(160deg, rgba(20, 8, 60, 0.12), rgba(20, 8, 60, 0.28)),
-    linear-gradient(160deg, var(--user-color), rgb(var(--accent-2)));
+/* Frosted-glass surface for the floating nav / overlays. */
+.glass {
+  background: rgb(var(--card) / 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgb(var(--card-border) / 0.7);
+}
+.dark .glass {
+  background: rgb(var(--card) / 0.6);
+  border-color: rgb(255 255 255 / 0.08);
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, rgb(var(--accent)), rgb(var(--accent-2)));
 }
 
 /* soft tinted icon chip, colored via --chip inline var */
 .chip {
-  background: color-mix(in srgb, var(--chip) 16%, transparent);
+  background: color-mix(in srgb, var(--chip) 15%, transparent);
   color: var(--chip);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

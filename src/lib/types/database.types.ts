@@ -61,11 +61,13 @@ export type Database = {
           user_id: string;
           family_id: string | null;
           amount: number;
-          category: Category;
+          category: string;
           note: string;
           date: string;
           is_shared: boolean;
           is_recurring: boolean;
+          payment_method: string | null;
+          attachment_url: string | null;
           created_at: string;
         };
         Insert: {
@@ -73,14 +75,38 @@ export type Database = {
           user_id: string;
           family_id?: string | null;
           amount: number;
-          category: Category;
+          category: string;
           note?: string;
           date?: string;
           is_shared?: boolean;
           is_recurring?: boolean;
+          payment_method?: string | null;
+          attachment_url?: string | null;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["expenses"]["Insert"]>;
+        Relationships: [];
+      };
+      categories: {
+        Row: {
+          id: string;
+          user_id: string;
+          family_id: string | null;
+          name: string;
+          icon: string;
+          color: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          family_id?: string | null;
+          name: string;
+          icon?: string;
+          color?: string;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["categories"]["Insert"]>;
         Relationships: [];
       };
       budgets: {
@@ -88,7 +114,7 @@ export type Database = {
           id: string;
           user_id: string;
           family_id: string | null;
-          category: Category;
+          category: string;
           monthly_limit: number;
           created_at: string;
         };
@@ -96,7 +122,7 @@ export type Database = {
           id?: string;
           user_id: string;
           family_id?: string | null;
-          category: Category;
+          category: string;
           monthly_limit: number;
           created_at?: string;
         };
@@ -154,7 +180,7 @@ export type Database = {
           title: string;
           amount: number;
           due_day: number;
-          category: Category;
+          category: string;
           created_at: string;
         };
         Insert: {
@@ -163,7 +189,7 @@ export type Database = {
           title: string;
           amount: number;
           due_day: number;
-          category: Category;
+          category: string;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["reminders"]["Insert"]>;

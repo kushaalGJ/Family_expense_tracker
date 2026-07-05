@@ -4,12 +4,11 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getFamilyId } from "@/lib/mode";
-import type { Category } from "@/lib/types/database.types";
 import type { ActionState } from "@/lib/actions/shared";
 
 export type ExpenseFilters = {
   search?: string;
-  category?: Category;
+  category?: string;
   dateFrom?: string;
   dateTo?: string;
 };
@@ -49,11 +48,13 @@ export async function createExpense(
   if (!user) return { error: "You must be logged in." };
 
   const amount = Number(formData.get("amount"));
-  const category = String(formData.get("category") || "") as Category;
+  const category = String(formData.get("category") || "").trim();
   const note = String(formData.get("note") || "").trim();
   const date = String(formData.get("date") || "");
   const isShared = formData.get("isShared") === "on";
   const isRecurring = formData.get("isRecurring") === "on";
+  const paymentMethod = String(formData.get("paymentMethod") || "").trim() || null;
+  const attachmentUrl = String(formData.get("attachmentUrl") || "").trim() || null;
 
   if (!amount || amount <= 0 || !category || !date) {
     return { error: "Please fill in amount, category, and date." };
@@ -70,6 +71,8 @@ export async function createExpense(
     date,
     is_shared: Boolean(familyId),
     is_recurring: isRecurring,
+    payment_method: paymentMethod,
+    attachment_url: attachmentUrl,
   });
   if (error) return { error: error.message };
 

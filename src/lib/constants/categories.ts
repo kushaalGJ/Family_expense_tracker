@@ -22,6 +22,18 @@ export const CATEGORY_META: Record<Category, { color: string; emoji: string }> =
   Other: { color: "#6B7280", emoji: "📦" },
 };
 
+export const DEFAULT_CATEGORY = { color: "#6B7280", emoji: "🏷️" };
+
+/** Color for any category name — built-in or custom (falls back to neutral gray). */
+export function categoryColor(name: string): string {
+  return (CATEGORY_META as Record<string, { color: string; emoji: string }>)[name]?.color ?? DEFAULT_CATEGORY.color;
+}
+
+/** Emoji for any category name — built-in or custom. */
+export function categoryEmoji(name: string): string {
+  return (CATEGORY_META as Record<string, { color: string; emoji: string }>)[name]?.emoji ?? DEFAULT_CATEGORY.emoji;
+}
+
 export const DEFAULT_BUDGETS: Record<Category, number> = {
   Food: 5000,
   Transport: 2000,
