@@ -220,6 +220,10 @@ export type Database = {
         Args: { target_family_id: string };
         Returns: boolean;
       };
+      delete_current_user: {
+        Args: Record<string, never>;
+        Returns: undefined;
+      };
     };
   };
 };

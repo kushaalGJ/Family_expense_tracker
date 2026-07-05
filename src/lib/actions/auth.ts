@@ -87,8 +87,18 @@ export async function joinFamilyAccount(
   }
 
   const supabase = await createClient();
+  // New user: sign up. Existing account (e.g. a private account): the sign-up
+  // fails, so sign them in instead so they can join with the same login.
   const { error: signUpError } = await supabase.auth.signUp({ email, password });
-  if (signUpError) return { error: signUpError.message };
+  if (signUpError) {
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    if (signInError) {
+      return {
+        error:
+          "An account with this email already exists. Enter its correct password to log in and join.",
+      };
+    }
+  }
 
   const { error: rpcError } = await supabase.rpc("join_family_by_code", {
     join_code: code,
@@ -148,6 +158,20 @@ export async function login(
 
 export async function signOut() {
   const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/entry");
+}
+
+export async function deleteAccount() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/entry");
+
+  const { error } = await supabase.rpc("delete_current_user");
+  if (error) throw error;
+
   await supabase.auth.signOut();
   redirect("/entry");
 }

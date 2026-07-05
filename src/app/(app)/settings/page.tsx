@@ -6,6 +6,7 @@ import { resolveModeContext } from "@/lib/mode";
 import { signOut } from "@/lib/actions/auth";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { AppLockSetting } from "@/components/layout/AppLockSetting";
+import { DeleteAccountButton } from "@/components/layout/DeleteAccountButton";
 import { JoinFamilyInline } from "@/components/family/JoinFamilyInline";
 import { Button } from "@/components/ui/Button";
 
@@ -95,10 +96,14 @@ export default async function SettingsPage() {
       </Section>
 
       <form action={signOut}>
-        <Button type="submit" variant="danger" className="w-full">
+        <Button type="submit" variant="secondary" className="w-full">
           <LogOut size={16} /> Sign out
         </Button>
       </form>
+
+      <Section title="Danger zone">
+        <DeleteAccountButton />
+      </Section>
     </div>
   );
 }
