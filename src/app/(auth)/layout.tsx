@@ -1,6 +1,6 @@
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="gradient-header flex min-h-screen items-center justify-center p-4">
+    <div className="gradient-accent flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center text-white">
           <h1 className="text-3xl font-bold">💰 FamilySpend</h1>
