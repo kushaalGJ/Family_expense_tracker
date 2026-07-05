@@ -1,8 +1,43 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import type { ActionState } from "@/lib/actions/shared";
+
+/** Lets an already-logged-in user (e.g. a private account) join a family by
+ *  code, reusing their saved profile. Uses the existing join RPC. */
+export async function joinExistingUserToFamily(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const code = String(formData.get("code") || "").trim().toUpperCase();
+  if (!code) return { error: "Enter a join code." };
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "You must be logged in." };
+
+  const meta = (user.user_metadata ?? {}) as { name?: string; emoji?: string; color?: string };
+  const { error } = await supabase.rpc("join_family_by_code", {
+    join_code: code,
+    member_name: meta.name ?? "Me",
+    member_emoji: meta.emoji ?? "🙂",
+    member_color: meta.color ?? "#1DB954",
+  });
+  if (error) {
+    return {
+      error: error.message.includes("INVALID_CODE")
+        ? "That code doesn't match any family."
+        : error.message,
+    };
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/family");
+}
 
 function readProfileFields(formData: FormData) {
   return {

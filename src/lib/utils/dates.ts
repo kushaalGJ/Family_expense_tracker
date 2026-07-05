@@ -27,6 +27,16 @@ export function getMonthRange(date: Date = new Date()) {
   return { start: toISODate(start), end: toISODate(end) };
 }
 
+/** Whole days from today until `dateStr` (negative if in the past). */
+export function daysUntil(dateStr: string): number {
+  const { year, month, day } = parseISODate(dateStr);
+  const target = new Date(year, month, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  target.setHours(0, 0, 0, 0);
+  return Math.round((target.getTime() - today.getTime()) / 86_400_000);
+}
+
 /** Oldest-to-newest list of the last `count` months (including the current one), as {year, month, label}. */
 export function getLastNMonths(count: number, from: Date = new Date()) {
   const months: { year: number; month: number; label: string }[] = [];

@@ -2,74 +2,89 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Trophy, Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { deleteGoal } from "@/lib/actions/goals";
 import { GoalEditModal } from "@/components/goals/GoalEditModal";
+import { BudgetRing } from "@/components/budgets/BudgetRing";
 import { formatINR } from "@/lib/utils/currency";
+import { daysUntil } from "@/lib/utils/dates";
 import type { Database } from "@/lib/types/database.types";
 
 type Goal = Database["public"]["Tables"]["goals"]["Row"];
 
+function motivation(pct: number): string {
+  if (pct >= 100) return "Goal reached! 🎉";
+  if (pct >= 75) return "Almost there — keep going!";
+  if (pct >= 50) return "Halfway there!";
+  if (pct >= 25) return "Great start!";
+  return "Let's get saving!";
+}
+
 export function GoalCard({ goal }: { goal: Goal }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const pct = goal.target > 0 ? Math.min(goal.saved / goal.target, 1) : 0;
+  const pct = goal.target > 0 ? Math.min((goal.saved / goal.target) * 100, 100) : 0;
+  const days = goal.deadline ? daysUntil(goal.deadline) : null;
 
   async function handleDelete() {
     await deleteGoal(goal.id);
     router.refresh();
   }
 
-  // Appending a local time component avoids the UTC-midnight parsing that
-  // would otherwise shift the displayed date back a day in negative-offset timezones.
-  const deadlineLabel = goal.deadline
-    ? new Date(`${goal.deadline}T00:00:00`).toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      })
-    : null;
-
   return (
     <>
-      <div className="card p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 font-medium">
-            <span className="chip flex h-8 w-8 items-center justify-center rounded-xl" style={{ ["--chip" as string]: "rgb(var(--accent))" }}>
-              <Trophy size={16} />
-            </span>
-            {goal.name}
+      <div className="card p-5">
+        <div className="flex items-center gap-4">
+          <div className="relative shrink-0">
+            <BudgetRing
+              spent={goal.saved}
+              limit={goal.target}
+              color="rgb(var(--savings))"
+              overColor="rgb(var(--savings))"
+              size={76}
+              strokeWidth={8}
+            />
+            <div className="absolute inset-0 flex items-center justify-center text-sm font-extrabold">
+              {Math.round(pct)}%
+            </div>
           </div>
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              className="cursor-pointer text-muted hover:text-foreground"
-              aria-label="Edit goal"
-            >
-              <Pencil size={16} />
-            </button>
-            <button
-              type="button"
-              onClick={handleDelete}
-              className="cursor-pointer text-muted hover:text-[rgb(var(--expense))]"
-              aria-label="Delete goal"
-            >
-              <Trash2 size={16} />
-            </button>
+
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <span className="truncate text-lg font-bold">{goal.name}</span>
+              <span className="ml-auto flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setOpen(true)}
+                  className="text-muted hover:text-foreground"
+                  aria-label="Edit goal"
+                >
+                  <Pencil size={16} />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="text-muted hover:text-[rgb(var(--expense))]"
+                  aria-label="Delete goal"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </span>
+            </div>
+            <div className="mt-0.5 text-sm">
+              <span className="font-bold text-[rgb(var(--savings))]">{formatINR(goal.saved)}</span>
+              <span className="text-muted"> / {formatINR(goal.target)}</span>
+            </div>
+            <div className="mt-1 flex items-center gap-2 text-xs text-muted">
+              <span>{motivation(pct)}</span>
+              {days !== null && (
+                <>
+                  <span>·</span>
+                  <span>{days >= 0 ? `${days} days left` : `${Math.abs(days)} days over`}</span>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-black/5 dark:bg-white/10">
-          <div
-            className="h-full rounded-full bg-[rgb(var(--accent))]"
-            style={{ width: `${pct * 100}%` }}
-          />
-        </div>
-        <div className="mt-2 flex items-center justify-between text-sm text-muted">
-          <span>
-            {formatINR(goal.saved)} / {formatINR(goal.target)}
-          </span>
-          {deadlineLabel && <span>by {deadlineLabel}</span>}
         </div>
       </div>
       <GoalEditModal open={open} onClose={() => setOpen(false)} goal={goal} />

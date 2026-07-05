@@ -4,12 +4,14 @@ export function BudgetRing({
   color,
   size = 88,
   strokeWidth = 9,
+  overColor = "#EF4444",
 }: {
   spent: number;
   limit: number;
   color: string;
   size?: number;
   strokeWidth?: number;
+  overColor?: string;
 }) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -32,7 +34,7 @@ export function BudgetRing({
         cy={size / 2}
         r={radius}
         strokeWidth={strokeWidth}
-        stroke={isOver ? "#EF4444" : color}
+        stroke={isOver ? overColor : color}
         fill="none"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
