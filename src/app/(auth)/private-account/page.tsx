@@ -14,7 +14,7 @@ export default function PrivateAccountPage() {
   const [state, formAction, isPending] = useActionState(createPrivateAccount, initialActionState);
 
   return (
-    <Card className="!bg-white/10 text-white">
+    <Card>
       <h2 className="mb-4 text-lg font-semibold">Create your private account</h2>
       <form action={formAction} className="flex flex-col gap-4">
         <FormField label="Your name" name="name" required placeholder="Kushaal" />
@@ -29,11 +29,11 @@ export default function PrivateAccountPage() {
           minLength={6}
           autoComplete="new-password"
         />
-        {state.error && <p className="text-sm text-red-300">{state.error}</p>}
+        {state.error && <p className="text-sm text-[rgb(var(--expense))]">{state.error}</p>}
         <Button type="submit" disabled={isPending}>
-          {isPending ? "Creating…" : "Create Private Account"}
+          {isPending ? "Creating…" : "Create private account"}
         </Button>
-        <p className="text-center text-sm text-white/70">
+        <p className="text-center text-sm text-muted">
           <Link href="/entry" className="underline">
             Back
           </Link>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Check, Copy } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 
 export function JoinCodeCard({ familyName, code }: { familyName: string; code: string }) {
@@ -15,15 +16,16 @@ export function JoinCodeCard({ familyName, code }: { familyName: string; code: s
   return (
     <Card className="flex items-center justify-between">
       <div>
-        <div className="text-sm text-foreground/60">{familyName}</div>
-        <div className="text-2xl font-bold tracking-widest">{code}</div>
+        <div className="text-sm text-muted">{familyName}</div>
+        <div className="text-2xl font-bold tracking-widest text-[rgb(var(--accent))]">{code}</div>
       </div>
       <button
         type="button"
         onClick={handleCopy}
-        className="glass-card cursor-pointer rounded-2xl px-3.5 py-2 text-sm hover:bg-white/10"
+        className="inline-flex cursor-pointer items-center gap-1.5 rounded-2xl border border-black/10 px-3.5 py-2 text-sm font-medium hover:bg-black/[0.03] dark:border-white/10 dark:hover:bg-white/5"
       >
-        {copied ? "Copied!" : "Copy"}
+        {copied ? <Check size={15} /> : <Copy size={15} />}
+        {copied ? "Copied" : "Copy"}
       </button>
     </Card>
   );

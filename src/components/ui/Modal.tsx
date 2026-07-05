@@ -1,5 +1,7 @@
 "use client";
 
+import { X } from "lucide-react";
+
 export function Modal({
   open,
   onClose,
@@ -20,16 +22,16 @@ export function Modal({
         onClick={onClose}
         aria-hidden
       />
-      <div className="glass-card !bg-background relative w-full max-w-md rounded-b-none rounded-t-2xl p-5 sm:rounded-2xl">
+      <div className="glass-card !bg-background relative w-full max-w-md rounded-b-none rounded-t-3xl p-5 sm:rounded-3xl">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-base font-semibold">{title}</h3>
           <button
             type="button"
             onClick={onClose}
-            className="cursor-pointer text-foreground/50 hover:text-foreground"
+            className="cursor-pointer opacity-50 hover:opacity-100"
             aria-label="Close"
           >
-            ✕
+            <X size={18} />
           </button>
         </div>
         {children}

@@ -8,7 +8,7 @@ import type { Category } from "@/lib/types/database.types";
 export function CategoryPieChart({ data }: { data: { category: Category; amount: number }[] }) {
   if (data.length === 0) {
     return (
-      <p className="py-8 text-center text-sm text-foreground/50">
+      <p className="py-8 text-center text-sm text-muted">
         No expenses logged this month yet.
       </p>
     );
@@ -31,7 +31,12 @@ export function CategoryPieChart({ data }: { data: { category: Category; amount:
         </Pie>
         <Tooltip
           formatter={(value) => formatINR(Number(value))}
-          contentStyle={{ background: "#18181f", border: "none", borderRadius: 8, color: "#fff" }}
+          contentStyle={{
+            background: "rgb(var(--card))",
+            border: "1px solid rgba(128,128,128,0.2)",
+            borderRadius: 12,
+            fontSize: 12,
+          }}
         />
       </PieChart>
     </ResponsiveContainer>

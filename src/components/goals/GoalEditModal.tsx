@@ -73,7 +73,7 @@ export function GoalEditModal({
           type="date"
           defaultValue={goal?.deadline ?? undefined}
         />
-        {error && <p className="text-sm text-red-400">{error}</p>}
+        {error && <p className="text-sm text-[rgb(var(--expense))]">{error}</p>}
         <Button type="submit" disabled={pending}>
           {pending ? "Saving…" : "Save"}
         </Button>

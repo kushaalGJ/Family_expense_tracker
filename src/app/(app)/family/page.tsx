@@ -22,9 +22,7 @@ export default async function FamilyPage() {
       <h1 className="text-xl font-semibold">Family</h1>
       <JoinCodeCard familyName={modeCtx.familyName ?? "Your family"} code={modeCtx.familyCode ?? ""} />
       <div>
-        <h2 className="mb-2 text-sm font-semibold text-foreground/80">
-          This month&apos;s leaderboard
-        </h2>
+        <h2 className="mb-2 text-sm font-semibold">This month&apos;s leaderboard</h2>
         <Leaderboard members={leaderboard} currentUserId={user.id} />
       </div>
     </div>

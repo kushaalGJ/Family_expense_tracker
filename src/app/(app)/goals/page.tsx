@@ -12,7 +12,7 @@ export default async function GoalsPage() {
         <NewGoalButton />
       </div>
       {goals.length === 0 ? (
-        <p className="text-sm text-foreground/50">
+        <p className="text-sm text-muted">
           No savings goals yet. Add one to start tracking progress.
         </p>
       ) : (

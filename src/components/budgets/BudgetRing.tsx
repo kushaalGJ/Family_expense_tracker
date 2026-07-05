@@ -24,7 +24,7 @@ export function BudgetRing({
         cy={size / 2}
         r={radius}
         strokeWidth={strokeWidth}
-        className="stroke-white/10"
+        className="stroke-black/10 dark:stroke-white/15"
         fill="none"
       />
       <circle

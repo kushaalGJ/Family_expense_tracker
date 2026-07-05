@@ -14,7 +14,7 @@ export default function JoinFamilyPage() {
   const [state, formAction, isPending] = useActionState(joinFamilyAccount, initialActionState);
 
   return (
-    <Card className="!bg-white/10 text-white">
+    <Card>
       <h2 className="mb-4 text-lg font-semibold">Join a family</h2>
       <form action={formAction} className="flex flex-col gap-4">
         <FormField
@@ -37,11 +37,11 @@ export default function JoinFamilyPage() {
           minLength={6}
           autoComplete="new-password"
         />
-        {state.error && <p className="text-sm text-red-300">{state.error}</p>}
+        {state.error && <p className="text-sm text-[rgb(var(--expense))]">{state.error}</p>}
         <Button type="submit" disabled={isPending}>
-          {isPending ? "Joining…" : "Join Family"}
+          {isPending ? "Joining…" : "Join family"}
         </Button>
-        <p className="text-center text-sm text-white/70">
+        <p className="text-center text-sm text-muted">
           <Link href="/entry" className="underline">
             Back
           </Link>

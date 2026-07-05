@@ -8,7 +8,7 @@ export function EmojiPicker({ name, defaultValue }: { name: string; defaultValue
 
   return (
     <div className="flex flex-col gap-1.5 text-sm">
-      <span className="font-medium text-foreground/80">Avatar</span>
+      <span className="font-medium opacity-80">Avatar</span>
       <input type="hidden" name={name} value={selected} />
       <div className="grid grid-cols-8 gap-2">
         {EMOJI_OPTIONS.map((emoji) => (
@@ -19,8 +19,8 @@ export function EmojiPicker({ name, defaultValue }: { name: string; defaultValue
             aria-pressed={selected === emoji}
             className={`flex h-9 w-9 items-center justify-center rounded-xl text-lg transition-colors cursor-pointer ${
               selected === emoji
-                ? "bg-[rgb(var(--accent))]/30 ring-2 ring-[rgb(var(--accent))]"
-                : "glass-card hover:bg-white/10"
+                ? "bg-[rgb(var(--accent))]/25 ring-2 ring-[rgb(var(--accent))]"
+                : "border border-black/10 hover:bg-black/[0.04] dark:border-white/10 dark:hover:bg-white/5"
             }`}
           >
             {emoji}

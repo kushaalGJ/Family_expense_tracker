@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Plus } from "lucide-react";
 import { listExpenses } from "@/lib/actions/expenses";
 import { ExpenseFilters } from "@/components/expenses/ExpenseFilters";
 import { ExpenseList } from "@/components/expenses/ExpenseList";
@@ -31,7 +32,7 @@ export default async function ExpensesPage({
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Expenses</h1>
         <Link href="/expenses/new">
-          <Button>+ Add</Button>
+          <Button><Plus size={16} /> Add</Button>
         </Link>
       </div>
       <ExpenseFilters />

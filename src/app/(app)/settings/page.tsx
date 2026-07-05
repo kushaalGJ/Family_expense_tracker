@@ -19,9 +19,9 @@ export default async function SettingsPage() {
     <div className="flex flex-col gap-4">
       <h1 className="text-xl font-semibold">Settings</h1>
       <Card>
-        <div className="mb-1 text-sm text-foreground/60">Account</div>
+        <div className="mb-1 text-sm text-muted">Account</div>
         <div className="font-medium">{user.email}</div>
-        <div className="mt-1 text-sm text-foreground/60">
+        <div className="mt-1 text-sm text-muted">
           {modeCtx.mode === "family" ? `Family: ${modeCtx.familyName}` : "Private account"}
         </div>
       </Card>

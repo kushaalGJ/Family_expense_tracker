@@ -6,7 +6,7 @@ type ExpenseRowData = Database["public"]["Tables"]["expenses"]["Row"];
 export function ExpenseList({ expenses }: { expenses: ExpenseRowData[] }) {
   if (expenses.length === 0) {
     return (
-      <p className="py-8 text-center text-sm text-foreground/50">
+      <p className="py-8 text-center text-sm text-muted">
         No expenses match these filters yet.
       </p>
     );

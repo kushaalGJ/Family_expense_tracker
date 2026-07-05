@@ -1,4 +1,4 @@
-import { CATEGORY_META } from "@/lib/constants/categories";
+import { AlertTriangle } from "lucide-react";
 import { formatINR } from "@/lib/utils/currency";
 import type { Category } from "@/lib/types/database.types";
 
@@ -14,10 +14,13 @@ export function OverBudgetAlerts({
       {items.map((item) => (
         <div
           key={item.category}
-          className="rounded-2xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-300"
+          className="flex items-center gap-2.5 rounded-2xl border border-[rgb(var(--expense))]/25 bg-[rgb(var(--expense))]/10 px-3.5 py-3 text-sm text-[rgb(var(--expense))]"
         >
-          {CATEGORY_META[item.category].emoji} You&apos;re {formatINR(item.spent - item.limit)} over
-          budget on {item.category}
+          <AlertTriangle size={18} className="shrink-0" />
+          <span>
+            {formatINR(item.spent - item.limit)} over budget on{" "}
+            <span className="font-semibold">{item.category}</span>
+          </span>
         </div>
       ))}
     </div>

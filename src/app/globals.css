@@ -6,30 +6,47 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #f4f4f8;
-  --foreground: #16161f;
-  --surface: 255 255 255;
-  --surface-alpha: 0.65;
-  --surface-border: 0 0 0;
-  --surface-border-alpha: 0.08;
-  --accent: 139 92 246;
-  --user-color: #8b5cf6;
+  --background: #f3f2fb;
+  --foreground: #1b1830;
+  --muted: 107 104 128; /* secondary text */
+
+  --card: 255 255 255;
+  --card-border: 17 12 46;
+  --card-border-alpha: 0.06;
+  --card-shadow: 0 6px 20px -8px rgba(43, 28, 92, 0.18);
+
+  --accent: 122 92 250; /* violet */
+  --accent-2: 109 78 240; /* deeper violet for gradients */
+  --user-color: #8b7cf6;
+
+  --income: 22 163 74; /* green */
+  --expense: 225 45 62; /* red */
 }
 
 .dark {
-  --background: #0b0b12;
-  --foreground: #f2f2f7;
-  --surface: 255 255 255;
-  --surface-alpha: 0.06;
-  --surface-border: 255 255 255;
-  --surface-border-alpha: 0.12;
-  --accent: 168 130 255;
+  --background: #0d0e14;
+  --foreground: #edecf5;
+  --muted: 154 164 178;
+
+  --card: 25 27 35;
+  --card-border: 255 255 255;
+  --card-border-alpha: 0.08;
+  --card-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+
+  --accent: 167 139 250;
+  --accent-2: 139 108 246;
+
+  --income: 52 211 153;
+  --expense: 248 113 113;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: rgb(var(--accent));
+  --color-muted: rgb(var(--muted));
+  --color-income: rgb(var(--income));
+  --color-expense: rgb(var(--expense));
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -40,14 +57,24 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
+/* Elevated white card — the primary surface. `.glass-card` kept as an alias
+   so existing markup restyles automatically. */
+.card,
 .glass-card {
-  border-radius: 1rem;
-  border-width: 1px;
-  backdrop-filter: blur(16px);
-  background: rgb(var(--surface) / var(--surface-alpha));
-  border-color: rgb(var(--surface-border) / var(--surface-border-alpha));
+  border-radius: 1.25rem;
+  background: rgb(var(--card));
+  border: 1px solid rgb(var(--card-border) / var(--card-border-alpha));
+  box-shadow: var(--card-shadow);
 }
 
-.header-gradient {
-  background: linear-gradient(135deg, var(--user-color), #8b5cf6);
+.gradient-header {
+  background:
+    linear-gradient(160deg, rgba(20, 8, 60, 0.12), rgba(20, 8, 60, 0.28)),
+    linear-gradient(160deg, var(--user-color), rgb(var(--accent-2)));
+}
+
+/* soft tinted icon chip, colored via --chip inline var */
+.chip {
+  background: color-mix(in srgb, var(--chip) 16%, transparent);
+  color: var(--chip);
 }

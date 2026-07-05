@@ -8,7 +8,7 @@ export function ColorPicker({ name, defaultValue }: { name: string; defaultValue
 
   return (
     <div className="flex flex-col gap-1.5 text-sm">
-      <span className="font-medium text-foreground/80">Color</span>
+      <span className="font-medium opacity-80">Color</span>
       <input type="hidden" name={name} value={selected} />
       <div className="flex flex-wrap gap-2">
         {COLOR_OPTIONS.map((color) => (
@@ -18,7 +18,9 @@ export function ColorPicker({ name, defaultValue }: { name: string; defaultValue
             onClick={() => setSelected(color)}
             aria-pressed={selected === color}
             className={`h-8 w-8 rounded-full transition-transform cursor-pointer ${
-              selected === color ? "ring-2 ring-offset-2 ring-offset-background ring-white scale-110" : ""
+              selected === color
+                ? "ring-2 ring-offset-2 ring-offset-[rgb(var(--card))] ring-foreground scale-110"
+                : ""
             }`}
             style={{ backgroundColor: color }}
           />

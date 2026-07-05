@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Trash2, Plus } from "lucide-react";
 import { createReminder, deleteReminder } from "@/lib/actions/reminders";
 import { initialActionState } from "@/lib/actions/shared";
 import { CATEGORIES, CATEGORY_META } from "@/lib/constants/categories";
+import { CategoryIcon } from "@/components/ui/CategoryIcon";
 import { formatINR } from "@/lib/utils/currency";
 import { Modal } from "@/components/ui/Modal";
 import { FormField } from "@/components/ui/FormField";
@@ -54,27 +56,27 @@ export function ReminderSection({ reminders }: { reminders: Reminder[] }) {
                 ? `Due in ${diff} day${diff === 1 ? "" : "s"}`
                 : `${Math.abs(diff)} day${Math.abs(diff) === 1 ? "" : "s"} overdue`;
           return (
-            <div key={r.id} className="glass-card flex items-center gap-3 p-3">
-              <span className="text-lg">{CATEGORY_META[r.category].emoji}</span>
+            <div key={r.id} className="card flex items-center gap-3 p-3">
+              <CategoryIcon category={r.category} size={40} />
               <div className="min-w-0 flex-1">
                 <div className="truncate text-sm font-medium">{r.title}</div>
-                <div className="text-xs text-foreground/50">{dueLabel}</div>
+                <div className="text-xs text-muted">{dueLabel}</div>
               </div>
               <div className="font-semibold">{formatINR(r.amount)}</div>
               <button
                 type="button"
                 onClick={() => handleDelete(r.id)}
-                className="cursor-pointer text-foreground/40 hover:text-red-400"
+                className="cursor-pointer text-muted hover:text-[rgb(var(--expense))]"
                 aria-label="Delete reminder"
               >
-                🗑️
+                <Trash2 size={16} />
               </button>
             </div>
           );
         })
       )}
       <Button variant="secondary" type="button" onClick={() => setOpen(true)}>
-        + Add Reminder
+        <Plus size={16} /> Add reminder
       </Button>
       <Modal open={open} onClose={() => setOpen(false)} title="Add Bill Reminder">
         <form action={handleSubmit} className="flex flex-col gap-4">
@@ -82,11 +84,11 @@ export function ReminderSection({ reminders }: { reminders: Reminder[] }) {
           <FormField label="Amount (₹)" name="amount" type="number" step="0.01" min="0" required />
           <FormField label="Due day of month" name="dueDay" type="number" min="1" max="28" required />
           <div className="flex flex-col gap-1.5 text-sm">
-            <span className="font-medium text-foreground/80">Category</span>
+            <span className="font-medium opacity-80">Category</span>
             <select
               name="category"
               defaultValue={CATEGORIES[0]}
-              className="glass-card w-full rounded-2xl px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[rgb(var(--accent))]"
+              className="w-full rounded-2xl border border-black/10 bg-black/[0.03] px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[rgb(var(--accent))] dark:border-white/10 dark:bg-white/5"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>

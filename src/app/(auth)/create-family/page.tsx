@@ -14,7 +14,7 @@ export default function CreateFamilyPage() {
   const [state, formAction, isPending] = useActionState(createFamilyAccount, initialActionState);
 
   return (
-    <Card className="!bg-white/10 text-white">
+    <Card>
       <h2 className="mb-4 text-lg font-semibold">Create your family</h2>
       <form action={formAction} className="flex flex-col gap-4">
         <FormField label="Family name" name="familyName" required placeholder="The Guptas" />
@@ -30,11 +30,11 @@ export default function CreateFamilyPage() {
           minLength={6}
           autoComplete="new-password"
         />
-        {state.error && <p className="text-sm text-red-300">{state.error}</p>}
+        {state.error && <p className="text-sm text-[rgb(var(--expense))]">{state.error}</p>}
         <Button type="submit" disabled={isPending}>
-          {isPending ? "Creating…" : "Create Family"}
+          {isPending ? "Creating…" : "Create family"}
         </Button>
-        <p className="text-center text-sm text-white/70">
+        <p className="text-center text-sm text-muted">
           <Link href="/entry" className="underline">
             Back
           </Link>

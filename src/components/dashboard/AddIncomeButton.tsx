@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Plus } from "lucide-react";
 import { createIncome } from "@/lib/actions/income";
 import { initialActionState } from "@/lib/actions/shared";
 import { todayISODate } from "@/lib/utils/dates";
@@ -31,9 +32,9 @@ export function AddIncomeButton() {
   return (
     <>
       <Button variant="secondary" type="button" onClick={() => setOpen(true)}>
-        + Add Income
+        <Plus size={16} /> Add income
       </Button>
-      <Modal open={open} onClose={() => setOpen(false)} title="Add Income">
+      <Modal open={open} onClose={() => setOpen(false)} title="Add income">
         <form action={handleSubmit} className="flex flex-col gap-4">
           <FormField label="Amount (₹)" name="amount" type="number" step="0.01" min="0" required autoFocus />
           <FormField label="Source" name="source" placeholder="Salary, freelance, etc." />

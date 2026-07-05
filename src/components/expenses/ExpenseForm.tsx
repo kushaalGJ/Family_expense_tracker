@@ -42,7 +42,7 @@ export function ExpenseForm() {
         placeholder="e.g. Uber ride"
       />
       <div className="flex flex-col gap-1.5 text-sm">
-        <span className="font-medium text-foreground/80">
+        <span className="font-medium opacity-80">
           Category{" "}
           {autoSuggested && <span className="text-xs text-[rgb(var(--accent))]">(auto-detected)</span>}
         </span>
@@ -54,7 +54,7 @@ export function ExpenseForm() {
             setCategoryTouched(true);
             setAutoSuggested(false);
           }}
-          className="glass-card w-full rounded-2xl px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[rgb(var(--accent))]"
+          className="w-full rounded-2xl border border-black/10 bg-black/[0.03] px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[rgb(var(--accent))] dark:border-white/10 dark:bg-white/5"
         >
           {CATEGORIES.map((cat) => (
             <option key={cat} value={cat}>
@@ -66,17 +66,17 @@ export function ExpenseForm() {
       <FormField label="Date" name="date" type="date" defaultValue={today} required />
       {mode === "family" && (
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" name="isShared" className="h-4 w-4 rounded" />
+          <input type="checkbox" name="isShared" className="h-4 w-4 rounded accent-[rgb(var(--accent))]" />
           Shared with family
         </label>
       )}
       <label className="flex items-center gap-2 text-sm">
-        <input type="checkbox" name="isRecurring" className="h-4 w-4 rounded" />
+        <input type="checkbox" name="isRecurring" className="h-4 w-4 rounded accent-[rgb(var(--accent))]" />
         Recurring
       </label>
-      {state.error && <p className="text-sm text-red-400">{state.error}</p>}
+      {state.error && <p className="text-sm text-[rgb(var(--expense))]">{state.error}</p>}
       <Button type="submit" disabled={isPending}>
-        {isPending ? "Saving…" : "Add Expense"}
+        {isPending ? "Saving…" : "Add expense"}
       </Button>
     </form>
   );

@@ -12,7 +12,8 @@ export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(login, initialActionState);
 
   return (
-    <Card className="!bg-white/10 text-white">
+    <Card>
+      <h2 className="mb-4 text-lg font-semibold">Welcome back</h2>
       <form action={formAction} className="flex flex-col gap-4">
         <FormField label="Email" name="email" type="email" required autoComplete="email" />
         <FormField
@@ -22,11 +23,11 @@ export default function LoginPage() {
           required
           autoComplete="current-password"
         />
-        {state.error && <p className="text-sm text-red-300">{state.error}</p>}
+        {state.error && <p className="text-sm text-[rgb(var(--expense))]">{state.error}</p>}
         <Button type="submit" disabled={isPending}>
           {isPending ? "Logging in…" : "Log in"}
         </Button>
-        <p className="text-center text-sm text-white/70">
+        <p className="text-center text-sm text-muted">
           <Link href="/entry" className="underline">
             Back
           </Link>

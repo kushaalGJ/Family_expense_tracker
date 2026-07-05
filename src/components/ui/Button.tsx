@@ -4,11 +4,13 @@ type Variant = "primary" | "secondary" | "ghost" | "danger";
 
 const VARIANT_CLASSES: Record<Variant, string> = {
   primary:
-    "bg-[rgb(var(--accent))] text-white hover:opacity-90 disabled:opacity-50",
+    "bg-[rgb(var(--accent))] text-white shadow-sm hover:opacity-90 disabled:opacity-50",
   secondary:
-    "glass-card hover:bg-white/10 disabled:opacity-50",
-  ghost: "hover:bg-white/10 disabled:opacity-50",
-  danger: "bg-red-500 text-white hover:opacity-90 disabled:opacity-50",
+    "bg-[rgb(var(--card))] border border-black/10 dark:border-white/10 hover:bg-black/[0.03] dark:hover:bg-white/5 disabled:opacity-50",
+  ghost:
+    "hover:bg-black/[0.04] dark:hover:bg-white/5 disabled:opacity-50",
+  danger:
+    "bg-[rgb(var(--expense))] text-white shadow-sm hover:opacity-90 disabled:opacity-50",
 };
 
 export function Button({
